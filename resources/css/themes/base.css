@@ -1,0 +1,199 @@
+/**
+ * Base Theme - CSS Custom Properties
+ *
+ * This file defines the default color scheme and styling variables for the
+ * podcast search application. These can be overridden by theme-specific CSS
+ * files or via environment configuration.
+ *
+ * Usage in CSS:
+ *   color: var(--text-primary);
+ *   background: linear-gradient(to bottom, var(--header-gradient-from), var(--header-gradient-to));
+ *
+ * Usage in Tailwind (via @apply or arbitrary values):
+ *   class="text-[var(--text-primary)]"
+ *   class="bg-[var(--brand-primary)]"
+ */
+
+:root {
+    /* ==========================================================================
+       Brand Colors
+       ========================================================================== */
+    --brand-primary: #3b82f6;      /* Blue - neutral default */
+    --brand-secondary: #2563eb;    /* Darker blue for hover states */
+    --brand-accent: #1d4ed8;       /* Even darker for active states */
+
+    /* ==========================================================================
+       Header Gradient
+       ========================================================================== */
+    --header-gradient-from: #3b82f6;
+    --header-gradient-to: #1d4ed8;
+
+    /* ==========================================================================
+       Text Colors
+       ========================================================================== */
+    --text-primary: #1f2937;       /* Gray 800 - main text */
+    --text-secondary: #4b5563;     /* Gray 600 - secondary text */
+    --text-muted: #9ca3af;         /* Gray 400 - muted/placeholder text */
+    --text-on-brand: #ffffff;      /* Text on brand color backgrounds */
+
+    /* ==========================================================================
+       Background Colors
+       ========================================================================== */
+    --bg-primary: #ffffff;         /* Main background */
+    --bg-secondary: #f9fafb;       /* Gray 50 - secondary backgrounds */
+    --bg-tertiary: #f3f4f6;        /* Gray 100 - tertiary backgrounds */
+
+    /* ==========================================================================
+       Result Card Styling
+       ========================================================================== */
+    --card-bg: #ffffff;
+    --card-border: #e5e7eb;        /* Gray 200 */
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --card-hover-shadow: rgba(0, 0, 0, 0.15);
+
+    /* ==========================================================================
+       Interactive Elements
+       ========================================================================== */
+    --button-primary-bg: var(--brand-primary);
+    --button-primary-hover-bg: var(--brand-secondary);
+    --button-primary-text: #ffffff;
+
+    --link-color: var(--brand-primary);
+    --link-hover-color: var(--brand-secondary);
+
+    /* ==========================================================================
+       Form Elements
+       ========================================================================== */
+    --input-bg: #ffffff;
+    --input-border: #d1d5db;       /* Gray 300 */
+    --input-focus-border: var(--brand-primary);
+    --input-placeholder: var(--text-muted);
+
+    /* ==========================================================================
+       Audio Player
+       ========================================================================== */
+    --player-bg: #1f2937;          /* Dark background */
+    --player-text: #ffffff;
+    --player-progress: var(--brand-primary);
+    --player-progress-bg: #374151;
+
+    /* ==========================================================================
+       Fonts
+       ========================================================================== */
+    --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-brand: var(--font-heading);
+
+    /* ==========================================================================
+       Transitions
+       ========================================================================== */
+    --transition-fast: 150ms ease;
+    --transition-normal: 200ms ease;
+    --transition-slow: 300ms ease;
+
+    /* ==========================================================================
+       Search & Highlight
+       ========================================================================== */
+    --highlight-bg: #fef08a;           /* Yellow 200 - search term highlight */
+
+    /* ==========================================================================
+       Pagination
+       ========================================================================== */
+    --pagination-shadow: rgba(59, 130, 246, 0.8);   /* Brand primary shadow */
+    --pagination-shadow-hover: rgba(59, 130, 246, 0.7);
+    --pagination-focus-ring: rgba(59, 130, 246, 0.3);
+    --pagination-active-border: rgba(59, 130, 246, 0.4);
+    --pagination-ghost-border: rgba(59, 130, 246, 0.35);
+    --pagination-ghost-hover-bg: rgba(59, 130, 246, 0.1);
+    --pagination-disabled-bg: #e5e7eb;
+    --pagination-disabled-text: #9ca3af;
+
+    /* ==========================================================================
+       Segment (Transcript Sidebar)
+       ========================================================================== */
+    --segment-active-bg: #dbeafe;      /* Blue 100 */
+    --segment-active-border: var(--brand-primary);
+    --segment-hover-bg: var(--bg-tertiary);
+}
+
+/* ==========================================================================
+   Dark Mode Overrides
+   ========================================================================== */
+:root.dark,
+[data-theme].dark {
+    --text-primary: #f9fafb;       /* Gray 50 */
+    --text-secondary: #d1d5db;     /* Gray 300 */
+    --text-muted: #9ca3af;         /* Gray 400 */
+
+    --bg-primary: #111827;         /* Gray 900 */
+    --bg-secondary: #1f2937;       /* Gray 800 */
+    --bg-tertiary: #374151;        /* Gray 700 */
+
+    --card-bg: #1f2937;
+    --card-border: #374151;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --card-hover-shadow: rgba(0, 0, 0, 0.4);
+
+    --input-bg: #1f2937;
+    --input-border: #4b5563;
+}
+
+/* ==========================================================================
+   Utility Classes Using Theme Variables
+   ========================================================================== */
+
+/* Header gradient */
+.theme-header-gradient {
+    background: linear-gradient(to bottom, var(--header-gradient-from), var(--header-gradient-to));
+}
+
+/* Text colors */
+.theme-text-primary { color: var(--text-primary); }
+.theme-text-secondary { color: var(--text-secondary); }
+.theme-text-muted { color: var(--text-muted); }
+.theme-text-brand { color: var(--brand-primary); }
+.theme-text-on-brand { color: var(--text-on-brand); }
+
+/* Background colors */
+.theme-bg-primary { background-color: var(--bg-primary); }
+.theme-bg-secondary { background-color: var(--bg-secondary); }
+.theme-bg-tertiary { background-color: var(--bg-tertiary); }
+.theme-bg-brand { background-color: var(--brand-primary); }
+
+/* Card styling */
+.theme-card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    box-shadow: 0 1px 3px var(--card-shadow);
+    transition: box-shadow var(--transition-normal);
+}
+
+.theme-card:hover {
+    box-shadow: 0 4px 6px var(--card-hover-shadow);
+}
+
+/* Button styling */
+.theme-button-primary {
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    transition: background-color var(--transition-fast);
+}
+
+.theme-button-primary:hover {
+    background-color: var(--button-primary-hover-bg);
+}
+
+/* Link styling */
+.theme-link {
+    color: var(--link-color);
+    transition: color var(--transition-fast);
+}
+
+.theme-link:hover {
+    color: var(--link-hover-color);
+}
+
+/* Font families */
+.font-heading { font-family: var(--font-heading); }
+.font-body { font-family: var(--font-body); }
+.font-brand { font-family: var(--font-brand); }

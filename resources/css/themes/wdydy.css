@@ -1,0 +1,119 @@
+/**
+ * WDYDY Theme - What Did You Do Yesterday
+ *
+ * This theme provides the distinctive orange/yellow branding for the
+ * "What Did You Do Yesterday" podcast search interface.
+ *
+ * Features:
+ * - Yellow to orange gradient header
+ * - Lilita One display font for branding
+ * - Cyan/red text shadow effects on title
+ */
+
+:root[data-theme="wdydy"],
+[data-theme="wdydy"] {
+    /* ==========================================================================
+       WDYDY Brand Colors - Orange/Yellow
+       ========================================================================== */
+    --brand-primary: #f59e0b;      /* Amber 500 */
+    --brand-secondary: #d97706;    /* Amber 600 */
+    --brand-accent: #b45309;       /* Amber 700 */
+
+    /* ==========================================================================
+       Header Gradient - Yellow to Orange
+       ========================================================================== */
+    --header-gradient-from: #facc15;  /* Yellow 400 */
+    --header-gradient-to: #f97316;    /* Orange 500 */
+
+    /* ==========================================================================
+       Custom Brand Font
+       ========================================================================== */
+    --font-brand: 'Lilita One', cursive, system-ui, sans-serif;
+
+    /* ==========================================================================
+       Link colors to match brand
+       ========================================================================== */
+    --link-color: #ea580c;         /* Orange 600 */
+    --link-hover-color: #c2410c;   /* Orange 700 */
+
+    /* ==========================================================================
+       Pagination - orange brand shadow
+       ========================================================================== */
+    --pagination-shadow: rgba(249, 115, 22, 0.8);
+    --pagination-shadow-hover: rgba(249, 115, 22, 0.7);
+    --pagination-focus-ring: rgba(249, 115, 22, 0.3);
+    --pagination-active-border: rgba(249, 115, 22, 0.4);
+    --pagination-ghost-border: rgba(249, 115, 22, 0.35);
+    --pagination-ghost-hover-bg: rgba(249, 115, 22, 0.1);
+}
+
+/* Dark mode adjustments for WDYDY theme */
+:root[data-theme="wdydy"].dark,
+[data-theme="wdydy"].dark {
+    --brand-primary: #fbbf24;      /* Slightly brighter amber for dark mode */
+    --brand-secondary: #f59e0b;
+    --link-color: #fbbf24;
+    --link-hover-color: #fcd34d;
+}
+
+/* ==========================================================================
+   WDYDY Title Styling - "Everything Is Showbiz"
+   ========================================================================== */
+
+.wdydy-title {
+    font-family: var(--font-brand);
+    letter-spacing: 0.02em;
+}
+
+/* Cyan text shadow effect */
+.text-shadow-cyan {
+    text-shadow:
+        3px 3px 0 #06b6d4,
+        -1px -1px 0 rgba(6, 182, 212, 0.3);
+}
+
+/* Red text shadow effect */
+.text-shadow-red {
+    text-shadow:
+        3px 3px 0 #ef4444,
+        -1px -1px 0 rgba(239, 68, 68, 0.3);
+}
+
+/* Combined effect for animated or static use */
+.wdydy-title span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.wdydy-title span:hover {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   Episode Type Badges - WDYDY Specific
+   ========================================================================== */
+
+.episode-badge-interview {
+    background-color: #fef3c7;     /* Amber 100 */
+    color: #92400e;                /* Amber 800 */
+    border: 1px solid #fcd34d;     /* Amber 300 */
+}
+
+.episode-badge-midweek {
+    background-color: #dbeafe;     /* Blue 100 */
+    color: #1e40af;                /* Blue 800 */
+    border: 1px solid #93c5fd;     /* Blue 300 */
+}
+
+/* Dark mode badge adjustments */
+.dark .episode-badge-interview {
+    background-color: #78350f;     /* Amber 900 */
+    color: #fef3c7;
+    border-color: #b45309;
+}
+
+.dark .episode-badge-midweek {
+    background-color: #1e3a8a;     /* Blue 900 */
+    color: #dbeafe;
+    border-color: #1d4ed8;
+}
