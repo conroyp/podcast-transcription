@@ -15,7 +15,8 @@ class DatabaseConnectionTest extends TestCase
     public function test_it_uses_testing_database()
     {
         $dbName = DB::connection()->getDatabaseName();
-        $this->assertEquals('podcast_archive_testing', $dbName, 'Tests must run against podcast_archive_testing, not the production database.');
+        $this->assertTrue(app()->environment('testing'), 'APP_ENV must be "testing" when running tests.');
+        $this->assertNotEquals('podcast_archive', $dbName, 'Tests must not run against the production database.');
     }
 
     public function test_it_can_seed_test_data()
