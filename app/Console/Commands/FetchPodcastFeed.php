@@ -64,7 +64,7 @@ class FetchPodcastFeed extends Command
 
         // Fetch episodes
         $this->info("\nFetching up to {$episodeLimit} episodes...");
-        $newEpisodes = $rssService->fetchEpisodes($podcast, $episodeLimit);
+        $newEpisodes = $rssService->fetchEpisodes($podcast, incremental: true, limit: $episodeLimit);
 
         if ($newEpisodes === 0) {
             $this->warn('No new episodes found');
