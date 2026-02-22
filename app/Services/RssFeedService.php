@@ -200,30 +200,19 @@ class RssFeedService
      */
     private function filterNewEpisodes(Podcast $podcast, array $episodes, ?int $limit): array
     {
-        $latestExistingEpisode = $podcast->episodes()
-            ->orderBy('published_at', 'desc')
-            ->first();
+        $existingGuids = $podcast->episodes()
+            ->pluck('guid')
+            ->flip();
 
-        // If we have no episodes, take the most recent ones (limited)
-        if (! $latestExistingEpisode) {
-            Log::info('No existing episodes found, will process the most recent episodes');
-            if ($limit !== null) {
-                return array_slice($episodes, -$limit);
-            }
-
-            return $episodes;
-        }
-
-        // Filter to episodes newer than our latest
-        $filtered = [];
-        foreach ($episodes as $episodeData) {
-            if ($episodeData['published_at']->gt($latestExistingEpisode->published_at)) {
-                $filtered[] = $episodeData;
-            }
-        }
+        $filtered = array_filter(
+            $episodes,
+            fn ($episodeData) => ! $existingGuids->has($episodeData['guid'])
+        );
 
         if (! empty($filtered)) {
-            Log::info('Found '.count($filtered).' episodes newer than latest existing');
+            Log::info('Found '.count($filtered).' new episodes not yet in database');
+        } else {
+            Log::info('No new episodes found (all GUIDs already exist in database)');
         }
 
         return $filtered;
