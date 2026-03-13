@@ -2,12 +2,15 @@
 
 @section('meta')
     @if(isset($episodeMetadata) && $episodeMetadata)
+        @php
+            $cleanDescription = trim(preg_replace('/\n+/', ' ', $episodeMetadata['description']));
+        @endphp
         <title>{{ $episodeMetadata['title'] }} - Everything Is Showbiz</title>
-        <meta name="description" content="{{ $episodeMetadata['description'] }}">
+        <meta name="description" content="{{ $cleanDescription }}">
         <link rel="canonical" href="{{ url('/?view=episodes&episode=' . request('episode') . (request('segment') ? '&segment=' . request('segment') : '')) }}">
 
         <meta property="og:title" content="{{ $episodeMetadata['title'] }} - Everything Is Showbiz"/>
-        <meta property="og:description" content="{{ $episodeMetadata['description'] }}" />
+        <meta property="og:description" content="{{ $cleanDescription }}" />
         <meta property="og:url" content="{{ url('/?view=episodes&episode=' . request('episode') . (request('segment') ? '&segment=' . request('segment') : '')) }}" />
         <meta property="og:site_name" content="Everything Is Showbiz"/>
         <meta property="og:locale" content="en_US"/>
@@ -22,40 +25,43 @@
 
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content="{{ $episodeMetadata['title'] }} - Everything Is Showbiz"/>
-        <meta name="twitter:description" content="{{ $episodeMetadata['description'] }}"/>
+        <meta name="twitter:description" content="{{ $cleanDescription }}"/>
         <meta name="twitter:image" content="{{ asset('i/og.png') }}"/>
         <meta name="twitter:image:width" content="1200"/>
         <meta name="twitter:image:height" content="630"/>
         <meta name="twitter:image:alt" content="{{ $episodeMetadata['title'] }} - Everything Is Showbiz"/>
 
         <!-- Structured Data for Podcast Episode -->
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "PodcastEpisode",
-            "name": {{ json_encode($episodeMetadata['title']) }},
-            "description": {{ json_encode($episodeMetadata['description']) }},
-            "url": "{{ url('/?view=episodes&episode=' . request('episode')) }}",
-            @if($episodeMetadata['published_at'])
-            "datePublished": {{ json_encode($episodeMetadata['published_at']->toISOString()) }},
-            @endif
-            "partOfSeries": {
-                "@type": "PodcastSeries",
-                "name": "What Did You Do Yesterday?",
-                "description": "Everything Is Showbiz - Searchable archive of What Did You Do Yesterday podcast episodes",
-                "url": "{{ url('/') }}"
-            },
-            "associatedMedia": {
-                "@type": "MediaObject",
-                "contentUrl": "{{ $episodeMetadata['audio_url'] ?: url('/episode/' . request('episode') . '/audio') }}",
-                "encodingFormat": "audio/mpeg"
-            },
-            "publisher": {
-                "@type": "Organization",
-                "name": "Everything Is Showbiz",
-                "url": "{{ url('/') }}"
+        @php
+            $episodeJsonLd = [
+                '@context' => 'https://schema.org',
+                '@type' => 'PodcastEpisode',
+                'name' => $episodeMetadata['title'],
+                'description' => $cleanDescription,
+                'url' => url('/?view=episodes&episode=' . request('episode')),
+            ];
+            if ($episodeMetadata['published_at']) {
+                $episodeJsonLd['datePublished'] = $episodeMetadata['published_at']->toISOString();
             }
-        }
+            $episodeJsonLd['partOfSeries'] = [
+                '@type' => 'PodcastSeries',
+                'name' => 'What Did You Do Yesterday?',
+                'description' => 'Everything Is Showbiz - Searchable archive of What Did You Do Yesterday podcast episodes',
+                'url' => url('/'),
+            ];
+            $episodeJsonLd['associatedMedia'] = [
+                '@type' => 'MediaObject',
+                'contentUrl' => $episodeMetadata['audio_url'] ?: url('/episode/' . request('episode') . '/audio'),
+                'encodingFormat' => 'audio/mpeg',
+            ];
+            $episodeJsonLd['publisher'] = [
+                '@type' => 'Organization',
+                'name' => 'Everything Is Showbiz',
+                'url' => url('/'),
+            ];
+        @endphp
+        <script type="application/ld+json">
+        {!! json_encode($episodeJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
         </script>
     @else
         @if(isset($view) && $view === 'episodes')
